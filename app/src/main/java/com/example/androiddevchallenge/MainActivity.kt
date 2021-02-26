@@ -28,6 +28,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -113,7 +114,12 @@ fun PuppyList(data: List<Puppy>) {
 @Composable
 fun MyApp(data: List<Puppy>) {
     Surface(color = MaterialTheme.colors.background) {
-        PuppyList(data = data)
+        Column {
+            TopAppBar(
+                title = { Text(text = "Puppies")},
+            )
+            PuppyList(data = data)
+        }
     }
 }
 
