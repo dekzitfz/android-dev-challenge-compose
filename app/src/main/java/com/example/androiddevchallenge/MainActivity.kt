@@ -23,7 +23,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
@@ -119,7 +123,6 @@ fun PuppyList(data: List<Puppy>, ctx: Context) {
                         style = TextStyle(color = Color.White)
                     )
                 }
-
             }
         }
     }
@@ -132,7 +135,7 @@ fun MyApp(data: List<Puppy>) {
     Surface(color = MaterialTheme.colors.background) {
         Column {
             TopAppBar(
-                title = { Text(text = "PuppyFinder")},
+                title = { Text(text = "PuppyFinder") },
             )
             PuppyList(data = data, context)
         }
