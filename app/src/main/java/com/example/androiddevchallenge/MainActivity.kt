@@ -15,11 +15,15 @@
  */
 package com.example.androiddevchallenge
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -30,11 +34,13 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.InternalComposeApi
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -57,32 +63,44 @@ class MainActivity : AppCompatActivity() {
 
 private fun dummyData(): List<Puppy> {
     val data = mutableListOf<Puppy>()
-    data.add(Puppy("cebol", "2 years", R.drawable.puppy1))
-    data.add(Puppy("cebol", "2 years", R.drawable.puppy1))
-    data.add(Puppy("cebol", "2 years", R.drawable.puppy1))
-    data.add(Puppy("cebol", "2 years", R.drawable.puppy1))
-    data.add(Puppy("cebol", "2 years", R.drawable.puppy1))
-    data.add(Puppy("cebol", "2 years", R.drawable.puppy1))
-    data.add(Puppy("cebol", "2 years", R.drawable.puppy1))
-    data.add(Puppy("cebol", "2 years", R.drawable.puppy1))
-    data.add(Puppy("cebol", "2 years", R.drawable.puppy1))
-    data.add(Puppy("cebol", "2 years", R.drawable.puppy1))
+    data.add(Puppy("Bella", "1 years", R.drawable.puppy1))
+    data.add(Puppy("Luna", "2.5 years", R.drawable.puppy2))
+    data.add(Puppy("Charlie", "2 years", R.drawable.puppy3))
+    data.add(Puppy("Lucy", "1.5 years", R.drawable.puppy4))
+    data.add(Puppy("Cooper", "3 years", R.drawable.puppy5))
+    data.add(Puppy("Max", "1 years", R.drawable.puppy6))
+    data.add(Puppy("Bailey", "2 years", R.drawable.puppy7))
+    data.add(Puppy("Daisy", "2 years", R.drawable.puppy8))
+    data.add(Puppy("Rocky", "1 years", R.drawable.puppy9))
+    data.add(Puppy("Gary", "2 years", R.drawable.puppy10))
     return data
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PuppyList(data: List<Puppy>) {
+fun PuppyList(data: List<Puppy>, ctx: Context) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(2),
         modifier = Modifier.padding(8.dp)
     ) {
         items(data) { puppy ->
-            Box(contentAlignment = Alignment.BottomStart) {
+            Box(
+                contentAlignment = Alignment.BottomStart,
+                modifier = Modifier.clickable(
+                    onClick = {
+                        ctx.startActivity(
+                            Intent(ctx, DetailActivity::class.java)
+                                .putExtra("DATA", puppy)
+                        )
+                    }
+                )
+            ) {
                 Image(
                     painter = painterResource(id = puppy.image),
                     contentDescription = null,
                     modifier = Modifier
+                        .height(140.dp)
+                        .fillMaxWidth()
                         .padding(4.dp)
                         .clip(shape = RoundedCornerShape(8.dp)),
                     contentScale = ContentScale.Crop
@@ -109,16 +127,16 @@ fun PuppyList(data: List<Puppy>) {
     }
 }
 
-// Start building your app here!
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MyApp(data: List<Puppy>) {
+    val context = LocalContext.current
     Surface(color = MaterialTheme.colors.background) {
         Column {
             TopAppBar(
                 title = { Text(text = "Puppies")},
             )
-            PuppyList(data = data)
+            PuppyList(data = data, context)
         }
     }
 }
