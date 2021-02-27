@@ -132,7 +132,7 @@ fun MyApp(data: List<Puppy>) {
     Surface(color = MaterialTheme.colors.background) {
         Column {
             TopAppBar(
-                title = { Text(text = "Puppies")},
+                title = { Text(text = "PuppyFinder")},
             )
             PuppyList(data = data, context)
         }
