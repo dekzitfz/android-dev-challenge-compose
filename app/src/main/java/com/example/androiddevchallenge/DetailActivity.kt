@@ -8,6 +8,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -33,6 +35,7 @@ class DetailActivity: AppCompatActivity(){
 
 @Composable
 fun DetailPuppy(puppy: Puppy) {
+    val openDialog = remember { mutableStateOf(false)  }
     Surface(color = MaterialTheme.colors.background) {
         Column {
             Header(
@@ -55,6 +58,38 @@ fun DetailPuppy(puppy: Puppy) {
                     text = puppy.getDescription(),
                     style = MaterialTheme.typography.caption
                 )
+                Spacer(Modifier.height(16.dp))
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { openDialog.value = true }
+                ) {
+                    Text("Adopt Me")
+                }
+
+                if(openDialog.value){
+                    AlertDialog(
+                        onDismissRequest = {
+                            // Dismiss the dialog when the user clicks outside the dialog or on the back
+                            // button. If you want to disable that functionality, simply use an empty
+                            // onCloseRequest.
+                            openDialog.value = false
+                        },
+                        title = {
+                            Text(text = "Adopt Success")
+                        },
+                        text = {
+                            Text("Thanks For Adopting ${puppy.name}!")
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    openDialog.value = false
+                                }) {
+                                Text("Ok")
+                            }
+                        }
+                    )
+                }
             }
         }
     }
